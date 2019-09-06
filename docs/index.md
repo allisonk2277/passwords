@@ -11,4 +11,33 @@ The goal of this article is to discuss what are generally considered good and ba
 5. Use a password manager. Memorize one really strong password as your master password, and let the password manager handle the rest.
 6. Don't reuse passwords. This is trivial to do if you use a password manager.
 
-Everything else in this article is a more detailed discussion about the above points.
+Everything else below is a more detailed discussion about the above points.
+
+## Choose passwords randomly
+
+This is the most fundamental idea with creating strong passwords. A general principle when discussing security is that a system that is *proven* to be secure can be trusted; unproven systems are inherently untrustworthy. Proving a system is secure requires a precise definition of:
+
+  * What you know
+  * What the attacker knows
+  * What the attacker is capable of
+  
+Let's discuss.
+
+### Schemes that do not work
+
+* Passwords based on personal information, preferences, history, etc.
+* Passwords based on phrases you have seen before (in a book, in conversation, etc).
+* Passwords based on one or more foreign languages.
+* Passwords that do predictable transformations to word(s).
+* etc.
+
+These don't work because a large part of its security comes from hiding *how* you came up with the password. For example, if your password scheme is:
+
+1. Choose an English word.
+2. Capitalize the first and last letter.
+3. Replace all the 'e's with '3's.
+4. Add the zip code you were born in to the end.
+
+Only step 1 meaningfully adds real entropy to your password. The rest of the steps rely on your attacker not knowing your procedure, and these are all fairly common "tricks" that add at most a couple extra bits of entropy.
+
+Notice how imprecise and hand-wavy that analysis was? 
