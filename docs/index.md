@@ -6,7 +6,7 @@ There are already many articles out there that talk about what you should or sho
 
 ## Recommended best practices, in short
 
-1. Strong passwords must be chosen randomly. There are no exceptions to this rule. If there's a single idea I hope is a takeaway from this article, it's that your Clever Password Scheme&trade; is likely broken.
+1. Strong passwords must be chosen randomly. There are no exceptions to this rule. If there's a single idea I hope is a takeaway from this article, it's that your Clever Password Scheme&trade; is likely broken and that you should use a random password generation procedure instead.
 2. Without sacrificing entropy, choose passwords that are easier to remember.
 3. As of this writing, ~80 bits of entropy is a reasonable choice for password entropy (more is better, of course). This is approximately 16 alphanumeric characters, or 6 words from the large words list, or 8 words from the short words list.
 4. Use a password manager. Memorize one really strong password as your master password, and let the password manager handle the rest.
@@ -32,9 +32,9 @@ Some basic principles we will keep in mind are:
 
 ### The threat model
 
-1. The attacker wants to guess our password. We might imagine that this is a password protecting an important account (e.g. email) with lots of valuable information. "Cracking" a password means correctly guessing the value of the password; you can imagine the attacker repeated making guesses of the form "is the password X" and receiving a yes/no answer each time.
+1. The attacker wants to guess our password. We might imagine that this is a password protecting an important account (e.g. email) with lots of valuable information. "Cracking" a password means correctly guessing the value of the password; you can imagine the attacker repeatedly making guesses of the form "is the password X" and receiving a yes/no answer each time.
 2. We assume the attacker has access to [all](https://en.wikipedia.org/wiki/List_of_data_breaches) [historic](https://www.theguardian.com/technology/2013/nov/07/adobe-password-leak-can-check) [password](https://www.nytimes.com/2017/10/03/technology/yahoo-hack-3-billion-users.html) [data](https://krebsonsecurity.com/2019/03/facebook-stored-hundreds-of-millions-of-user-passwords-in-plain-text-for-years/) [breaches](https://www.washingtonpost.com/news/the-switch/wp/2014/05/21/ebay-asks-145-million-users-to-change-passwords-after-data-breach/). Let's assume that every password in every breach has been cracked by now. In fact, let's go one step further (in the spirit of defending against the most difficult threat model) and simply assume every single password anyone has ever created (including all of your own old passwords) is known to your attacker, and that they have studied these passwords to identify patterns in how passwords are created. How do we create a new password that's still resistant to this attacker?
-3. The corollary with #2 is that we assume the attacker knows exactly what procedure we are using to come up with a password. A scheme where the attacker can know exactly what we are doing and still be unable to guess the password is fundamentally more secure than a scheme that relies on the attacker not knowing the scheme; there is no security in obscurity.
+3. The corollary with #2 is that we assume the attacker knows exactly what procedure we are using to come up with a password. A scheme where the attacker can know exactly what we are doing and still be unable to guess the password is fundamentally more secure than a scheme that relies on the attacker not knowing what you did; there is no security in obscurity.
 4. We assume the attacker has access to vast compute resources. In particular, we will assume the attacker has stolen password data somehow and is attempting to crack it offline, rather than online (websites do often have rate limiting, but this doesn't protect against offline cracking), and that the attacker has vast resources available (e.g. they are a nation-state, or have a large botnet, or some *really* fancy GPUs). Let's say the attacker can attempt a trillion (10^12) guesses per second; you might imagine they have a million machines, each capable of guessing a million times per second.
 
 How fast is 10^12 guesses per second?
@@ -64,9 +64,11 @@ First, let's examine some common schemes that are easily broken.
 
 The common theme with these schemes is that they may be clever, and an attacker with no experience might have a hard time figuring out what you did. However, our threat model is not a newbie attacker; we wish to defend against a highly experienced attacker who has certainly seen passwords similar to your scheme before. How likely is it that you are the only person in the world to have come up with your particular idea for a password? Even if you really are the first person to do so, have you used this scheme for more than one password? If an attacker knew other passwords you have created with this scheme (for example, a website might have been compromised and leaked this information), and learned what your scheme is, how guessable is the next password you create with this scheme?
 
-This comic sums it up pretty well: https://xkcd.com/936/
+Perhaps most importantly, how many possible passwords can you generate with one of these methods? Does it come anywhere close to the 80 bits of entropy we've been aiming for (2^80 = 1.2e24 = 1.2 trillion trillion possibilities)? If you can only generate 1,000 or even 1,000,000 passwords with your method, then it is broken.
 
-* Note: I don't think 44 bits of entropy as mentioned is anywhere close to a good margin of safety, but otherwise agree with the comic wholeheartedly.
+This comic sums it up pretty well: [https://xkcd.com/936/](https://xkcd.com/936/).
+
+* Note: I don't think 44 bits of entropy as mentioned is anywhere close to a good margin of safety, but otherwise agree with the author wholeheartedly.
 
 ## Generate passwords randomly
 
@@ -78,7 +80,7 @@ Let's examine a basic procedure for creating a password:
   * Example: your results are 01010011111001100010110110100010110011100010000100010011011010101100111100011111.
 2. Convert this bit sequence into a single integer in the range [0, 2^80). Call that integer X.
   * Example: X = 396202457632453138501407.
-3. Decide on what you want your password to consist of. For example, you might want your password to be lowercase letters and digits (I will notate this as [a-z0-9]). There are 36 possible characters. We now convert X into base-36, which is written as a list of integers [a1, a2, a3, ..., aN]. These are the coefficients of each power of 36, and will be in the range [0, 35].
+3. Decide on what you want your password to consist of. For example, you might want your password to be lowercase letters and digits (I will notate this as [a-z0-9]). There are 26 + 10 = 36 possible characters. We now convert X into base-36, which is written as a list of integers [a1, a2, a3, ..., aN]. These are the coefficients of each power of 36, and each will be in the range [0, 35].
   * Example: 1 28 18 23 20 19 1 9 8 12 15 28 13 29 21 27.
 4. For each number in your list, assign it to a character using a=0, b=1, c=2, ..., z=25, 0=26, 1=27, ..., 9=35.
   * Example: b2sxutbjimp2n3v1
@@ -87,16 +89,40 @@ And that's your password!
 
 What this procedure does is that it samples uniformly from the first 2^80 sequences of [a-z0-9] characters. There are 2^80 possibilities, and so our password has 80 bits of entropy. Thus, we can be confident that our password is secure; an attacker who knows that this exact procedure was followed would still require 38,334 years to crack it at 10^12 guesses per second.
 
-This procedure is roughly what I have implemented at https://github.com/allisonk2277/passwords. It's well suited for generating a password with computer assistance; it would be cumbersome to do this manually. For suggestions on generating passwords without using a computer, see below.
+This procedure is roughly what I have implemented at [https://github.com/allisonk2277/passwords](https://github.com/allisonk2277/passwords). It's well suited for generating a password with computer assistance, though it would be cumbersome to do this manually. For suggestions on generating passwords without using a computer, see the diceware section below.
 
-A note about password rules: any further modifications (e.g. capitalizing a letter, adding a symbol, etc) do not meaningfully add any additional security while making it more difficult to remember; we've already established that 80 bits is adequate security. Personally, I use a simple "capitalize the first letter and add ! at the end" when required by websites; I do not treat these modifications as adding any additional security.
+A note about password rules: any further modifications (e.g. capitalizing a letter, adding a symbol, etc) do not meaningfully add any additional security while making it more difficult to remember; we've already established that 80 bits is adequate security. Personally, I use a simple "capitalize the first letter and add ! at the end" when required by websites so I can remember what I did; I do not treat these modifications as adding any additional entropy.
 
 ## Diceware passwords
 
-A perfectly reasonable objection is that 'b2sxutbjimp2n3v1' is hard to memorize, and that the above procedure is well suited for computers but not working things out on pen and paper. Diceware is a method of generating passwords that simply draws from a word list, rather than a set of characters, during steps 3 and 4 of the procedure mentioned above. You randomly choose words from a long list of words to come up with passphrases like 'correct horse battery staple'. These passphrases are just as secure as a character-based password (again, count the bits and not the length) created with the same entropy, and are often easier to remember since they use actual English words and don't look like gibberish.
+A perfectly reasonable objection is that 'b2sxutbjimp2n3v1' is hard to memorize, and that the above procedure is well suited for computers but not for working things out on pen and paper. Diceware is a method of generating passwords that simply draws from a word list, rather than a set of characters, during steps 3 and 4 of the procedure mentioned above. You randomly choose words from a long list of words to come up with passphrases like 'correct horse battery staple'. These passphrases are just as secure as a character-based password (again, count the bits and not the length) created with the same entropy, and are often easier to remember since they use actual English words and don't look like gibberish.
 
-When generating a diceware password manually, you roll a number of dice (usually 5) at a time and match the numbers that come up to a list of words to choose a word. Instructions may be found here: https://www.eff.org/dice.
+When generating a diceware password manually, you roll a number of dice (usually 5) at a time and match the numbers that come up to a list of words to choose a word. Instructions for doing this may be found here: [https://www.eff.org/dice](https://www.eff.org/dice).
 
 A misinformed criticism that I've sometimes heard about diceware passwords is that they're vulnerable to dictionary attacks. This is simply not true; it's not any more true than saying character-based passwords are vulnerable because an attacker knows all the letters of the English alphabet. A 1- or 2- word diceware phrase lacks adequate entropy, but a 6- word diceware phrase chosen from a wordlist of 6^5 = 7776 words has 77 bits of entropy which is quite secure.
 
 I personally like the EFF's published wordlists because they have been carefully curated to use well known, recognizable words that are easy to remember. They also publish a couple other short wordlists should you want to use more words with less entropy per word.
+
+## Managing your passwords
+
+So we've (hopefully) established how to create a strong password. But now I need to do this for 100+ websites, with a different password for each one? The better solution is this:
+
+1. Use a reputable password manager to store your website passwords. You then only need to memorize a single strong password to use as your master password, instead of 100+.
+2. Each time you create an account with a website, generate a unique and strong password and store it using the password manager. You should never have a reason to use the same password on more than one website. Password reuse is one of the most common ways by which accounts are hacked - attackers will compromise some random site (like an old web forum running phpBB from 2006), then turn around and try all those username/password combinations on valuable sites like your email and bank accounts (related: [https://xkcd.com/792/](https://xkcd.com/792/)).
+3. Do use a 2-factor (2FA) method to further protect your accounts. Ideally a token- or hardware device-based mechanism like [Google Authenticator](https://en.wikipedia.org/wiki/Google_Authenticator) or [YubiKey](https://en.wikipedia.org/wiki/YubiKey) is best, but if those aren't available then text-message based 2FA is okay too.
+  * Text-message based 2FA is inherently weaker because it relies on the security of the cellular networks in order to be secure; see [this article](https://www.theverge.com/2017/9/18/16328172/sms-two-factor-authentication-hack-password-bitcoin). Token based 2FA like Google Authenticator are more secure because there is no communication from the website to your phone for an attacker to intercept (do note that you're still vulernable to phishing if you're manually entering the token into a website - a YubiKey [defends against this](https://www.yubico.com/phishing/) by taking an additional step of cryptographically checking the website first).
+
+### Should I write my master password down?
+
+This one is really up to you to decide what your threat model looks like. If you're worried about a household member attempting to hack one of your accounts, then your threat model involves physical access to your computer. This makes computer security *much* harder; all sorts of hardware based attacks, such as a keyboard logging device, are now possible. If you do trust the members of your household, then this is perhaps not part of your threat model. Everyone's situations are different, and so I don't have a real recommendation here.
+
+It's worth mentioning that writing down your password may be a good idea so that friends and/or family members may have access to important documents/etc should have a medical emergency. If you're really into cryptography and have friends who are as well, you could also consider encrypting a file containing your master passwords with two of your friends' public keys, such that they each need to cooperate in order to decrypt the file should the need arise.
+
+### What I personally do
+
+Note: I am not affiliated with AgileBits (the owners of 1Password) in any way; I'm simply describing my current password management setup.
+
+* I use [1Password](https://1password.com/) as my password manager.
+* I have two strong passwords memorized - one for 1password and the other for email. I don't rely on 1password for my email credentials because I do not want to be vulnerable to any single site becoming unavailable; if 1password goes down then I can still recover most accounts with an email-based password reset.
+* I have 2FA set up on every account of value.
+* I have a list of recovery tokens I can use for 2FA stored in 1password for each account that has 2FA enabled, in case I lose my 2FA device.
