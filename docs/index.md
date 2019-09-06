@@ -46,7 +46,19 @@ These don't work because a large part of its security comes from hiding *how* yo
 
 Only step 1 meaningfully adds real entropy to your password. The rest of the steps rely on your attacker not knowing your procedure, and these are all fairly common "tricks" that add at most a couple extra bits of entropy.
 
-Notice how imprecise and hand-wavy that analysis was, and that much of its entropy relies on the attacker not knowing what you actually did. This kind of scheme is difficult to reason about - how many possible words did you actually consider during step 1? How should you account for what the attacker may or may not know about you? etc. In general, debating if these schemes are secure comes down to squabbling over a few bits of entropy, which is not a large margin either way.
+Notice how imprecise and hand-wavy that analysis was, and that much of its entropy relies on the attacker not knowing what you actually did. This kind of scheme is difficult to reason about - how many possible words did you actually consider during step 1? How should you account for what the attacker may or may not know about you? etc. In general, debating if these schemes are secure comes down to squabbling over a few bits of entropy, which is not a large margin of safety either way.
 
 This comic sums it up pretty well: https://xkcd.com/936/
 
+### What resources does the attacker have?
+
+The most valuable resources we *must* assume the attacker has are the vast dumps of previously cracked passwords. In our threat model, we can safely say:
+
+1. At least hundreds of millions of passwords have been compromised in one way or another. While it's certainly true that websites that properly salt and hash their passwords are difficult to crack, it only takes a few websites to do something improper (passwords in plaintext, passwords *encrypted* rather than *hashed* and likely with a single sitewide key that's the only thing the attacker needs to crack in order to decrypt everything, passwords hashed with broken algorithms, passwords from sites that invent their own crypto, and the list goes on) in order for attackers to have a huge database of cracked passwords. 
+2. Attackers learn what common (and uncommon) password schemes are using these databases, and customize password cracking software to target those patterns first. They will try all common substitutions, transformations, etc. you can think of when cracking your password.
+3. If a password you reuse is in these databases, then all other accounts that reuse are instantly compromised.
+
+There are a few other things we should try to defend against (it's better to assume that the attacker has many resources, and defend against them all, instead of defending against a weaker threat model). 
+
+* A common objection is that websites will rate limit the number of login attempts. This is true, but we have to assume that the attacker has stolen your password data and is cracking it offline, rather than online (I disagree with the XKCD comic I linked above on this point). Again, we want to defend against the strongest possible threat model.
+* If the attacker is cracking it offline, let's be generous and say the attacker has a billion computers at their disposal, and each machine can attempt a billion guesses per second. These are wild overestimates, of course, but we want a large margin of safety to account for future advances in computing.
