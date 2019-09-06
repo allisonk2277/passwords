@@ -23,6 +23,12 @@ This is the most fundamental idea with creating strong passwords. A general prin
   
 Let's discuss.
 
+### What is entropy?
+
+Entropy is a measure of how much your attacker has to guess in order to crack your password. We usually discuss this in terms of the number of possible passwords that you could have chosen, with the units being the base-2 log of that number. That is, "80 bits of entropy" means you chose a password at random (each choice having the same probability of being chosen) from 2^80 = 1.2 * 10^24 possible choices. 
+
+If your password has N bits of entropy, then we generally expect the attacker to guess your password after 1/2 * 2^N = 2^(N - 1) guesses (if they went through each possible choice, then half the time they would guess your password before the halfway point and half the time they would guess your password after the halfway point).
+
 ### Schemes that do not work
 
 * Passwords based on personal information, preferences, history, etc.
@@ -40,4 +46,7 @@ These don't work because a large part of its security comes from hiding *how* yo
 
 Only step 1 meaningfully adds real entropy to your password. The rest of the steps rely on your attacker not knowing your procedure, and these are all fairly common "tricks" that add at most a couple extra bits of entropy.
 
-Notice how imprecise and hand-wavy that analysis was? 
+Notice how imprecise and hand-wavy that analysis was, and that much of its entropy relies on the attacker not knowing what you actually did. This kind of scheme is difficult to reason about - how many possible words did you actually consider during step 1? How should you account for what the attacker may or may not know about you? etc. In general, debating if these schemes are secure comes down to squabbling over a few bits of entropy, which is not a large margin either way.
+
+This comic sums it up pretty well: https://xkcd.com/936/
+
