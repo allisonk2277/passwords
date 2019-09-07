@@ -6,7 +6,7 @@ There are many articles that talk about what you should or shouldn't do with pas
 
 ## Recommended best practices, in short
 
-1. Strong passwords must be chosen randomly. There are no exceptions to this rule. If there's a single idea I hope is a takeaway from this article, it's that your Clever Password Scheme&trade; is likely broken and should be avoided.
+1. Strong passwords must be chosen randomly. *There are no exceptions to this rule.* If there's a single idea I hope is the takeaway from this article, it's that *&lt;insert Clever Password Scheme&trade;&gt;* is likely broken and must be avoided.
 2. Without sacrificing entropy, choose passwords that are easier to remember.
 3. As of this writing, ~80 bits of entropy is a reasonable choice for password entropy (more is better, of course). This is approximately 16 alphanumeric characters, or 6 words from the large words list, or 8 words from the short words list.
 4. Use a password manager. Memorize one really strong password as your master password, and let the password manager handle the rest.
@@ -51,7 +51,7 @@ How fast is 10^12 guesses per second?
 * 100 bits of entropy would take 40,196,936,841 years to crack.
 * 128 bits of entropy (a standard size used in cryptography) would take 1e19 (10,000,000,000,000,000,000) years to crack.
 
-80 bits of entropy seems like a reasonable minimum number of bits to aim for; even if advances in computing achieve a 1000x speedup over our threat model, it would still take about 38 years to crack an 80 bit secret. This seems like a good margin of safety (more entropy is certainly better, but this is the point at which you start to hit diminishing returns).
+80 bits of entropy seems like a reasonable minimum number of bits to aim for; even if advances in computing achieve a 1000x speedup over our threat model, it would still take about 38 years to crack an 80 bit secret. This seems like a good margin of safety (more entropy is certainly better, but this is point at which you begin encountering diminishing returns).
 
 ### Schemes that do not work
 
@@ -64,10 +64,11 @@ First, let's examine some common schemes that are easily broken.
 5. Passwords that look like gibberish, but actually have a pattern to them (e.g. take a phrase you remember, and use the first letter of each word).
 6. Passwords that look like other passwords you have used (e.g. you have a "base password" and then change the number at the end each time). Or worse, you are reusing a password that has already been cracked.
 
-The common theme with these schemes is that they may be clever, and a newbie attacker with no experience might have a hard time figuring out what you did. However, our threat model is not that of a newbie attacker; we wish to defend against a highly experienced attackers. If you're not convinced that your password scheme(s) are weak, consider these questions:
+The common theme with these schemes is that they may be clever, and a newbie attacker with no experience might have a hard time figuring out what you did. However, our threat model is not that of a newbie attacker; we wish to defend against a highly experienced attackers. If you're not convinced that your password scheme is weak, consider these questions:
 
 * How likely is it that you are the only person in the world to have come up with your particular idea for a password?
 * If an attacker sees one password generated with the scheme, how easy is it to come up with others?
+  * Remember, passwords are regularly exposed in data breaches, so you must assume the attacker has prior examples of passwords like yours.
 * Perhaps most importantly, how many possible passwords can you generate with one of these methods? Does it come anywhere close to the 80 bits of entropy we've been aiming for (2^80 = 1.2e24 = 1.2 trillion trillion possibilities)? If you can only generate 1,000 or even 1,000,000 possibilities, then it is broken.
 
 This comic sums it up pretty well: [https://xkcd.com/936/](https://xkcd.com/936/).
@@ -80,7 +81,8 @@ Let's examine a basic procedure for creating a password:
 
 1. Flip a coin 80 times. Each time, if it comes up as heads, write down a 0. If it comes up tails, write down a 1.
   * Example: your results are 01010011111001100010110110100010110011100010000100010011011010101100111100011111.
-2. Convert this bit sequence into a single integer in the range [0, 2^80). Call that integer X.
+  * We can just as easily use dice rolls to generate entropy instead of flipping coins. To maximize the number of bits gained per roll, we could use a scheme where a roll of 1-4 generates 2 bits and a roll of 5-6 generates one bit.
+2. Convert this bit sequence into a single integer in the range [0, 2^80 - 1]. Call that integer X.
   * Example: X = 396202457632453138501407.
 3. Decide on what elements you want your password to consist of. For example, you might want your password to be lowercase letters and digits (I will notate this as [a-z0-9]). There are 26 + 10 = 36 possible characters. We now convert X into base-36, which is written as a list of integers [a1, a2, a3, ..., aN]. These are the coefficients of each power of 36, and each will be in the range [0, 35].
   * Example: 1 28 18 23 20 19 1 9 8 12 15 28 13 29 21 27.
