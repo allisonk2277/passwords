@@ -68,18 +68,18 @@ Use all defaults (128 bits, [a-z0-9] charset, flip a coin):
 ./generate_password.py
 ```
 
-Roll dice, 64 bits of entropy, only use user input, use EFF large wordlist:
+Roll dice, 80 bits of entropy, only use user input, use EFF large wordlist:
 
 ```sh
 ./generate_password.py \
-  --entropy=64 \
+  --entropy=80 \
   --user_source=dice \
   --nouse_system_entropy \
   --mode=wordlist \
   --wordlist=eff_large
 ```
 
-Generate a password without user input, 256 bits of entropy, extended charset, only print result:
+Generate a password non-interactively, 256 bits of entropy, extended charset, don't print debug info:
 
 ```sh
 ./generate_password.py \
@@ -90,7 +90,7 @@ Generate a password without user input, 256 bits of entropy, extended charset, o
   --noverbose
 ```
 
-Print available flags:
+Print available options:
 
 ```sh
 ./generate_password.py --help
