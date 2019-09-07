@@ -97,7 +97,7 @@ This procedure is roughly what I have implemented at [https://github.com/allison
 
 A note about password rules: any further modifications (e.g. capitalizing a letter, adding a symbol, etc) make it harder to remember but do not meaningfully add any additional security; we've already established that 80 bits is adequate security. Personally, I use a simple "capitalize the first letter and add ! at the end" if a website requires me to do so. This is so I can remember what I did; I do not treat these modifications as adding any additional entropy.
 
-## Diceware passwords
+### Diceware passwords
 
 A perfectly reasonable objection is that 'b2sxutbjimp2n3v1' is hard to memorize, and that the above procedure is well suited for computers but not for working things out on pen and paper. Diceware is a method of generating passwords that simply draws from a word list, rather than a set of characters, during steps 3 and 4 of the procedure mentioned above. You randomly choose words from a long list of words to come up with passphrases like 'correct horse battery staple'. These passphrases are just as secure as a character-based password (again, count the bits and not the length) created with the same entropy, and are often easier to remember since they use actual English words and don't look like gibberish.
 
@@ -106,6 +106,17 @@ When generating a diceware password manually, you roll a number of dice (usually
 A (misinformed) criticism that I've sometimes heard about diceware passwords is that they're vulnerable to dictionary attacks. This is simply not true; it's not any more true than saying a password like 'b2sxutbjimp2n3v1' is vulnerable just because an attacker knows all the letters of the English alphabet. A 1- or 2- word diceware phrase lacks adequate entropy, but a 6- word diceware phrase chosen from a wordlist of 6^5 = 7776 words has 77 bits of entropy which is quite secure.
 
 I personally like the EFF's published wordlists because they have been carefully curated to use well known, recognizable words that are easy to remember. They also publish a couple other short wordlists should you want to use more words with less entropy per word.
+
+### Generating passwords with computer help
+
+There are a lot of programs that can help you generate a password, including [mine](https://github.com/allisonk2277/passwords). They are convenient and save you the work of manually looking up words from a list. Should you decide to use or write such a program, here are some things to keep in mind:
+
+1. I strongly suggest you use an offline program (one you download and run on your own computer), rather than one hosted on a website - this minimizes the chance that someone else could have seen your password (the author doesn't need to have ill intent for this to be a problem; you could imagine the website itself being compromised by a third party).
+  * Even if the website claims that it's all kept on the client, have you really looked at the entire source to verify that? And I mean the source that your browser actually loaded, not just the code they claim is the source.
+2. Only generate passwords on your own trusted computer, and not a shared computer. If you can't trust your own computer, then you have larger problems than password generation (and you should fix those problems before generating a new password, or else your password must be assumed to be compromised as well).
+  * Sometimes you don't have a choice (e.g. you share a computer with family members), but do recognize that it introduces new complexities into your threat model.
+3. If you have a programming background, do read the full source to understand exactly what it's doing.
+  * A pitfall to watch out for if the program is incorporating system-generated entropy is whether or not that entropy is coming from a cryptographically secure source. Default random libraries are not suitable for cryptographic purposes (many standard libraries use [MT19337](https://en.wikipedia.org/wiki/Mersenne_Twister), which has nice statistical properties but is completely broken for cryptographic purposes. In Python, a good implementation will use `random.SystemRandom` or the newer `secrets` library.
 
 ## Managing your passwords
 
