@@ -18,7 +18,7 @@ Everything else below is a more detailed discussion about the above points.
 
 Entropy is a measure of how difficult it is to guess your password. We define it as the number of possibile passwords you might have chosen, given a procedure for choosing one (we assume that each choice is equally likely to be chosen).
 
-* We use "bits" as the unit of entropy. Each additional bit double the number of possible passwords you could have chosen; N bits of entropy means 2^N possibilities.
+* We measure entropy in bits, which is the base-2 log of the number of possibilities. Each additional bit double the number of possible passwords you could have chosen; N bits of entropy means 2^N possibilities.
 * Adding 10 bits to your password's entropy makes it ~1000x harder to guess.
 * For a password with N bits of entropy, the expected number of guesses before your password is "cracked" is 1/2 * 2^N = 2^(N-1) guesses.
 
