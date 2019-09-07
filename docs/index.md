@@ -1,6 +1,6 @@
 # Password security basics
 
-The goal of this article is to discuss what are widely considered good and bad practices for choosing and managing passwords, aimed at a general audience. If you're already familiar with these ideas and are simply looking for a strong password generation tool, you might look at  [password generation script](https://github.com/allisonk2277/passwords) that supports common strong password formats.
+The goal of this article is to discuss what are widely considered good and bad practices for choosing and managing passwords, aimed at a general non-technical audience. If you're already familiar with these ideas and are simply looking for a strong password generation tool, you might look at my [password generation script](https://github.com/allisonk2277/passwords) that supports common strong password formats.
 
 There are many articles that talk about what you should or shouldn't do with passwords. Some are well written and give sound advice; others less so. I hope to use this article to present a more rigorous approach to thinking about your computer security, without assuming more than a minimal mathematical background. If anything is unclear, I'm always happy to answer questions or discuss ideas!
 
