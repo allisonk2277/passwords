@@ -158,7 +158,7 @@ def NumToBase(x, base):
 
   Example:
     NumToBase(32, 2) -> [1, 0, 0, 0, 0, 0]
-    NumToBase(0x20, 10) -> [3, 2]
+    NumToBase(32, 10) -> [3, 2]
   """
   # Right to left order.
   digits = []
