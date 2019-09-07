@@ -8,7 +8,7 @@ There are many articles that talk about what you should or shouldn't do with pas
 
 1. Strong passwords must be chosen randomly. *There are no exceptions to this rule.* If there's a single idea I hope is the takeaway from this article, it's that *&lt;insert Clever Password Scheme&trade;&gt;* is likely broken and must be avoided.
 2. Without sacrificing entropy, choose passwords that are easier to remember.
-3. As of this writing, ~80 bits of entropy is a reasonable choice for password entropy (more is better, of course). This is approximately 16 alphanumeric characters, or 6 words from the large words list, or 8 words from the short words list.
+3. As of this writing, ~80 bits of entropy is a reasonable choice for password entropy (more is better, of course). This is approximately 16 alphanumeric characters, or 6 words from the large list, or 8 words from the short list.
 4. Use a password manager. Memorize one really strong password as your master password, and let the password manager handle the rest.
 5. Don't reuse passwords. This is trivial to do if you use a password manager.
 
