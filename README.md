@@ -27,7 +27,7 @@ Flag | Type | Description
 -----|------|------------
 entropy | int | Number of bits of entropy desired. Default is 128.
 use_user_entropy | bool | If enabled, collect entropy from user. Enabled by default.
-use_system_entropy | bool | If enabled, user-provided bits are XORed with system-provided bits. It is well-known that XORing uncorrelated randomness sources generally increases the quality of randomness over either source by itself, and is at worst the better of the two sources (so long as the sources are uncorrelated). See [RFC 4086](https://tools.ietf.org/html/rfc4086#section-5) for a more detailed discussion. Enabled by default.
+use_system_entropy | bool | If enabled, user-provided bits are XORed with system-provided bits. It is well-known that XORing uncorrelated randomness sources generally increases the quality of randomness over either source by itself, and is at minimum no worse than the better of the two sources (so long as the sources are uncorrelated). This helps protect against possible bias in any single randomness source; no conventional method for generating randomness is perfect. See [RFC 4086](https://tools.ietf.org/html/rfc4086#section-5) for a more detailed discussion. Enabled by default.
 user_source | string | May be 'coin' or 'dice'. Default is 'coin'.
 mode | string | May be 'charset' or 'wordlist'. If 'charset', chooses characters from a string. If 'wordlist', chooses words from a file containing a list of words. Default is 'charset'.
 charset | string | If `--mode=charset`, this customizes which characters are used; see below. Default is 'alphanumeric'.

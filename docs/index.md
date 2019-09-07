@@ -89,7 +89,7 @@ Let's examine a basic procedure for creating a password:
 
 And that's your password!
 
-What this procedure does is that it samples uniformly from the first 2^80 sequences of [a-z0-9] characters. There are 2^80 possibilities, and so our password has 80 bits of entropy. Thus, we can be confident that our password is secure; an attacker who knows that this exact procedure was followed would still require 38,334 years to crack it at 10^12 guesses per second.
+What this procedure does is that it samples uniformly from the first 2^80 sequences of [a-z0-9] characters (all it does is convert a number in base-2 to a number in base-36). There are 2^80 possibilities, and so our password has 80 bits of entropy. Thus, we can be confident that our password is secure; an attacker who knows that this exact procedure was followed would still require 38,334 years to crack it at 10^12 guesses per second.
 
 This procedure is roughly what I have implemented at [https://github.com/allisonk2277/passwords](https://github.com/allisonk2277/passwords). It's well suited for generating a password with computer assistance, though it would be cumbersome to do this manually. For suggestions on generating passwords without using a computer, see the diceware section below.
 
@@ -107,7 +107,7 @@ I personally like the EFF's published wordlists because they have been carefully
 
 ## Managing your passwords
 
-So we've (hopefully) established how to create a strong password. But now I need to do this for 100+ websites, with a different password for each one? The better solution is this:
+So we've (hopefully) established how to create a strong password. But now do we really need to do this for 100+ websites, with a different password for each one? Hopefully not. Here are some recommendations:
 
 1. Use a reputable password manager to store your website passwords. You then only need to memorize a single strong password to use as your master password, instead of 100+.
 2. Each time you create an account with a website, generate a *unique* strong password and store it using the password manager. You should never have a reason to use the same password on more than one website. Password reuse is one of the most common ways by which accounts are hacked - attackers will compromise some random site (like an old web forum running phpBB from 2006), then turn around and try all the learned username/password combinations on valuable sites like your email and bank accounts (related: [https://xkcd.com/792/](https://xkcd.com/792/)).
