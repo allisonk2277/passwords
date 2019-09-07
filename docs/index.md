@@ -1,4 +1,4 @@
-# Password basics (aka "How to Think About Passwords")
+# Password security basics
 
 The goal of this article is to discuss what are widely considered good and bad practices for choosing and managing passwords, aimed at a general audience. If you're already familiar with these ideas and are simply looking for a strong password generation tool, you might look at  [password generation script](https://github.com/allisonk2277/passwords) that supports common strong password formats.
 
