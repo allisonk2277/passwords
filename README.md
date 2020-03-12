@@ -96,13 +96,11 @@ Print available options:
 
 ## How a password is generated
 
-We generate a password by choosing from a set of N entities repeatedly until we have as many bits of entropy as desired. The entities we choose may be characters from a string or a word list (in the spirit of diceware passphrases).
-
-Let E be the number of bits desired (the entropy) and N the size of the entity list we choose from.
+Let E be the number of bits desired (the entropy) and N the size of the entity list we choose from (e.g. characters in a string or words in a list).
 
 1. Generate an integer X with E random bits, using user-provided entropy (and system-provided entropy, if enabled).
 2. Convert X into base N as a sequence of integers in the range [0, N).
-3. Use this list to index into the list of entities to construct the password.
+3. Use these integers to index into the list of entities to construct the password.
 
 ### Collecting entropy
 
