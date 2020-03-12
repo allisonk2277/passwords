@@ -98,8 +98,8 @@ Print available options:
 
 Let E be the number of bits desired (the entropy) and N the size of the entity list we choose from (e.g. characters in a string or words in a list).
 
-1. Generate an integer X with E random bits, using user-provided entropy (and system-provided entropy, if enabled).
-2. Convert X into base N as a sequence of integers in the range [0, N).
+1. Generate an integer X with E random bits, using user- and/or system-provided entropy.
+2. Convert X into base N to get a sequence of integers in the range [0, N).
 3. Use these integers to index into the list of entities to construct the password.
 
 ### Collecting entropy
