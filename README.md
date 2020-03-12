@@ -2,8 +2,6 @@
 
 Generate passwords with user-provided entropy. Supports generating passwords with random characters as well as [diceware style word lists](https://xkcd.com/936/). Can also generate passwords without user input.
 
-You can find a short article about the basics of securing your accounts [here](https://allisonk2277.github.io/passwords/).
-
 ## Requirements
 
 * Python 3.6+
